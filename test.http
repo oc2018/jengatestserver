@@ -1,0 +1,26 @@
+# # POST http://localhost:4000/api/user/signup HTTP/1.1
+# # content-type: application/json
+
+# # {
+# #     "name": "rose Ndege",
+# #     "password": "roseNdege@254",
+# #     "email":"rose@ericndege.com",
+# #     "confirmPassword":"roseNdege@254"
+# # }
+
+# POST http://localhost:4000/api/user/signin HTTP/1.1
+# content-type: application/json
+
+# {
+#     "password": "ericNdege@254",
+#     "email":"eric2@ericndege.com"
+# }
+
+POST https://uat.finserve.africa/authentication/api/v3/authenticate/merchant HTTP/1.1
+ content-type: application/json
+ header: ` `
+ 
+{
+  "merchantCode": "3361620247",
+  "consumerSecret": "xa45MuOBOd6W50UUiY3oq9l3mQO1l5"
+}
