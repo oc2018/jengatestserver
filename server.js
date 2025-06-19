@@ -11,6 +11,7 @@ env.config();
 const allowedOrigins = [
   "http://localhost:4000",
   "https://jengatest.vercel.app/",
+  "https://jengatest.vercel.app",
   "https://vercel.com/oc2018s-projects/jengatest/HdpNdis9YSMH3CxgwRk6CDE5AKCa",
   "https://jengatest-git-master-oc2018s-projects.vercel.app/",
 ];
