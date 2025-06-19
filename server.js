@@ -8,7 +8,25 @@ import userRoutes from "./routes/users.routes.js";
 const app = express();
 env.config();
 
-app.use(cors());
+const allowedOrigins = [
+  "http://localhost:4000",
+  "https://jengatest.vercel.app/",
+  "https://vercel.com/oc2018s-projects/jengatest/HdpNdis9YSMH3CxgwRk6CDE5AKCa",
+  "https://jengatest-git-master-oc2018s-projects.vercel.app/",
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use("/api/users", userRoutes);
 app.get("/", (req, res) => {
