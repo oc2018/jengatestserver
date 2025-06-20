@@ -1,5 +1,4 @@
 import axios from "axios";
-import FormData from "form-data";
 import env from "dotenv";
 
 env.config();
@@ -24,7 +23,7 @@ export const getJengaToken = async (req, res) => {
         },
       }
     );
-    console.log();
+    console.log(response.data);
 
     res.json(response.data);
   } catch (error) {
