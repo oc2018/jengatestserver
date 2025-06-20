@@ -1,25 +1,30 @@
 import axios from "axios";
+import FormData from "form-data";
+import env from "dotenv";
 
-const merchantCode = process.env.VITE_JENGA_MERCHANT_CODE;
-const consumerSecret = process.env.VITE_JENGA_CUSTOMER_SECRET;
+env.config();
+
+const merchantCode = process.env.JENGA_MERCHANT_CODE;
+const consumerSecret = process.env.JENGA_CUSTOMER_SECRET;
 
 export const getJengaToken = async (req, res) => {
   try {
-    const formData = new URLSearchParams();
-
-    formData.append("merchantCode", merchantCode);
-    formData.append("consumerSecret", consumerSecret);
+    const payload = {
+      merchantCode,
+      consumerSecret,
+    };
 
     const response = await axios.post(
-      process.env.VITE_JENGA_API_AUTH_URL,
-      formData,
+      `${process.env.JENGA_API_AUTH_URL}/authenticate/merchant`,
+      payload,
       {
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          "Api-key": process.env.VITE_JENGA_API_KEY,
+          "Content-Type": "application/json",
+          "Api-Key": process.env.JENGA_API_KEY,
         },
       }
     );
+    console.log();
 
     res.json(response.data);
   } catch (error) {

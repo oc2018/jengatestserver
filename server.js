@@ -12,7 +12,6 @@ env.config();
 const allowedOrigins = [
   "http://localhost:4000",
   "http://localhost:5173",
-  "https://jengatest.vercel.app/",
   "https://jengatest.vercel.app",
   "https://uat.finserve.africa",
 ];
@@ -30,8 +29,8 @@ app.use(
   })
 );
 app.use(express.json());
+app.use("/api/jenga",jengaRoutes);
 app.use("/api/users", userRoutes);
-app.use("/api/jenga", jengaRoutes);
 app.get("/", (req, res) => {
   res.send("hello eric");
 });
