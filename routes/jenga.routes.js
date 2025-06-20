@@ -1,9 +1,8 @@
+import express from "express";
+import { getJengaToken } from "../controllers/jenga.controller.js";
 
-import express from "express"
+const router = express.Router();
 
+router.post("/token", getJengaToken);
 
-const router = express.Router()
-
-router.post('/token')
-
-export default router
+export default router;
