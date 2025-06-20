@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 
 import userRoutes from "./routes/users.routes.js";
+import jengaRoutes from "./routes/jenga.routes.js";
 
 const app = express();
 env.config();
@@ -29,6 +30,7 @@ app.use(
 );
 app.use(express.json());
 app.use("/api/users", userRoutes);
+app.use("/api/jenga", jengaRoutes);
 app.get("/", (req, res) => {
   res.send("hello eric");
 });
