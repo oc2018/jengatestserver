@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const merchantCode = process.env.VITE_JENGA_MERCHANT_CODE;
 const consumerSecret = process.env.VITE_JENGA_CUSTOMER_SECRET;
 
