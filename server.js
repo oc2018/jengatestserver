@@ -14,6 +14,7 @@ const allowedOrigins = [
   "http://localhost:5173",
   "https://jengatest.vercel.app/",
   "https://jengatest.vercel.app",
+  "https://uat.finserve.africa",
 ];
 
 app.use(
