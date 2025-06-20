@@ -15,13 +15,12 @@ export const getJengaToken = async (req, res) => {
       formData,
       {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
           "Api-key": process.env.VITE_JENGA_API_KEY,
         },
       }
     );
 
-    console.log(response.data);
     res.json(response.data);
   } catch (error) {
     console.error("Token request failed", error.response?.data || error);
