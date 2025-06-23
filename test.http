@@ -1,26 +1,26 @@
-# # POST http://localhost:4000/api/user/signup HTTP/1.1
-# # content-type: application/json
+POST http://localhost:4000/api/tenants HTTP/1.1
+Content-Type: application/json
 
-# # {
-# #     "name": "rose Ndege",
-# #     "password": "roseNdege@254",
-# #     "email":"rose@ericndege.com",
-# #     "confirmPassword":"roseNdege@254"
-# # }
-
-# POST http://localhost:4000/api/user/signin HTTP/1.1
-# content-type: application/json
-
-# {
-#     "password": "ericNdege@254",
-#     "email":"eric2@ericndege.com"
-# }
-
-POST https://uat.finserve.africa/authentication/api/v3/authenticate/merchant HTTP/1.1
- content-type: application/json
- header: ` `
- 
 {
-  "merchantCode": "3361620247",
-  "consumerSecret": "xa45MuOBOd6W50UUiY3oq9l3mQO1l5"
+  "name":"Ivy doe",
+  "email": "ivy@gmail.com",
+  "phoneNumber": "+254726368677",
+  "rent": 2500,
+  "property": "6858452da561b75ac0cff840"
+}
+
+###
+
+GET http://localhost:4000/api/properties HTTP/1.1
+
+###
+GET  http://localhost:4000/api/tenants[] HTTP/1.1
+
+###
+POST http://localhost:4000/api/properties HTTP/1.1
+Content-Type: application/json
+
+{
+  "address": "T945/s001",
+  "rent": 2500
 }

@@ -5,16 +5,13 @@ import cors from "cors";
 
 import userRoutes from "./routes/users.routes.js";
 import jengaRoutes from "./routes/jenga.routes.js";
+import propertyRoutes from "./routes/properties.routes.js";
+import tenantRoutes from "./routes/tenants.routes.js";
+import auth from "./middleware/index.js";
+import { allowedOrigins } from "./utils/index.js";
 
 const app = express();
 env.config();
-
-const allowedOrigins = [
-  "http://localhost:4000",
-  "http://localhost:5173",
-  "https://jengatest.vercel.app",
-  "https://uat.finserve.africa",
-];
 
 app.use(
   cors({
@@ -29,8 +26,11 @@ app.use(
   })
 );
 app.use(express.json());
-app.use("/api/jenga",jengaRoutes);
+app.use("/api/jenga", auth, jengaRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/properties", propertyRoutes);
+app.use("/api/tenants", tenantRoutes);
+
 app.get("/", (req, res) => {
   res.send("hello eric");
 });

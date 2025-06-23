@@ -5,12 +5,13 @@ import {
   getUsers,
   login,
 } from "../controllers/users.controller.js";
+import auth from "../middleware/index.js";
 
 const router = express.Router();
 
-router.get("/", getUsers);
+router.get("/", auth, getUsers);
 router.post("/signin", login);
 router.post("/signup", createUser);
-router.get("/:id", getUser);
+router.get("/:id", auth, getUser);
 
 export default router;

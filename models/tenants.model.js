@@ -1,16 +1,15 @@
 import mongoose from "mongoose";
 import validator from "validator";
 
-const UserSchema = new mongoose.Schema(
+const TenantSchema = new mongoose.Schema(
   {
     name: { type: String, trim: true },
-    password: {
+    idNumber: Number,
+    phoneNumber: {
       type: String,
       required: true,
-      minlength: [8, "Password must be atleast 8 characters long"],
-    },
-    confirmPassword: {
-      type: String,
+      unique: true,
+      validate: [validator.isMobilePhone, "Enter a valid PhoneNumber"],
     },
     email: {
       type: String,
@@ -19,12 +18,17 @@ const UserSchema = new mongoose.Schema(
       lowecase: true,
       validate: [validator.isEmail, "Enter a valid email"],
     },
+    property: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Property",
+      required: true,
+    },
   },
   {
     timestamps: true,
   }
 );
 
-const UserDetails = mongoose.model("UserDetails", UserSchema);
+const Tenant = mongoose.model("Tenant", TenantSchema);
 
-export default UserDetails;
+export default Tenant;

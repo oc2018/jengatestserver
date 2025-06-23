@@ -1,8 +1,14 @@
 import express from "express";
-import { getJengaToken } from "../controllers/jenga.controller.js";
+import {
+  getAccountBalance,
+  getJengaToken,
+  getRefreshToken,
+} from "../controllers/jenga.controller.js";
 
 const router = express.Router();
 
-router.post("/token", getJengaToken);
+router.get("/token", getJengaToken);
+router.post("/refreshtoken", getRefreshToken);
+router.post("/balance", getAccountBalance);
 
 export default router;

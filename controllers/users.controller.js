@@ -2,7 +2,11 @@ import usersModel from "../models/users.model.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
-const secret = "theatNew#%365string";
+import env from "dotenv";
+
+env.config();
+
+const secret = process.env.JWT_SECRET;
 
 export const getUser = async (req, res) => {
   const { id: _id } = req.params;
