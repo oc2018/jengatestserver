@@ -2,11 +2,19 @@ POST http://localhost:4000/api/tenants HTTP/1.1
 Content-Type: application/json
 
 {
-  "name":"Ivy doe",
-  "email": "ivy@gmail.com",
-  "phoneNumber": "+254726368677",
+  "name":"Eric Ndege",
+  "email": "Ndege@gmail.com",
+  "phoneNumber": "+254726168677",
   "rent": 2500,
   "property": "6858452da561b75ac0cff840"
+}
+
+###
+PATCH http://localhost:4000/api/tenants/685860fd29d6584fc2ecc4cf
+Content-Type: application/json
+
+{
+  "name": "Jane Ndege"
 }
 
 ###
@@ -14,13 +22,34 @@ Content-Type: application/json
 GET http://localhost:4000/api/properties HTTP/1.1
 
 ###
-GET  http://localhost:4000/api/tenants[] HTTP/1.1
+GET  http://localhost:4000/api/tenants/ HTTP/1.1
 
 ###
-POST http://localhost:4000/api/properties HTTP/1.1
+PATCH  http://localhost:4000/api/properties/685847c5dd3ba0987a93c8ec HTTP/1.1
 Content-Type: application/json
 
 {
-  "address": "T945/s001",
+  "address": "T945/t004",
   "rent": 2500
 }
+
+###
+
+GET http://localhost:4000/api/users  HTTP/1.1
+
+###
+  
+PATCH  http://localhost:4000/api/users/684efbd288c7b2b822b2ad35 HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Test map",
+  "password": "Testing@2026",
+  "email": "test@gmail.com"
+}
+
+###
+DELETE http://localhost:4000/api/properties/6859b17792ac139bade5ee1d HTTP/1.1
+
+###
+DELETE  http://localhost:4000/api/properties/685847c5dd3ba0987a93c8ec HTTP/1.1

@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import validator from "validator";
+import bcrypt from "bcryptjs";
 
 const UserSchema = new mongoose.Schema(
   {
@@ -25,6 +26,15 @@ const UserSchema = new mongoose.Schema(
   }
 );
 
+UserSchema.pre("findOneAndUpdate", async function () {
+  const update = this.getUpdate();
+  if (update.password) {
+    update.password = await bcrypt.hash(update.password, 12);
+    this.setUpdate(update);
+  }
+});
+
 const UserDetails = mongoose.model("UserDetails", UserSchema);
 
 export default UserDetails;
+12;

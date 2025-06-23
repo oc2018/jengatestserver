@@ -3,6 +3,8 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
 import env from "dotenv";
+import mongoose from "mongoose";
+import { deleteById } from "../utils/controller.helper.fxns.js";
 
 env.config();
 
@@ -15,7 +17,8 @@ export const getUser = async (req, res) => {
     const { password, ...withoutPass } = user.toObject();
     res.status(200).json(withoutPass);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    console.error({ error: error.message || error });
+    res.status(400).json({ error: `User query failed` });
   }
 };
 
@@ -25,7 +28,8 @@ export const getUsers = async (req, res) => {
 
     res.status(200).json(users);
   } catch (error) {
-    res.status(400).json(error.message);
+    console.error({ error: error.message || error });
+    res.status(400).json({ error: `Users query failed` });
   }
 };
 
@@ -65,7 +69,8 @@ export const createUser = async (req, res) => {
       .status(200)
       .json({ user: { email: newUser.email, name: newUser.name }, token });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    console.error({ error: error.message || error });
+    res.status(500).json({ error: `User signup failed` });
   }
 };
 
@@ -104,6 +109,32 @@ export const login = async (req, res) => {
       token,
     });
   } catch (error) {
-    res.status(400).json(error.message);
+    console.error({ error: error.message || error });
+    res.status(500).json({ error: `Login failed` });
   }
 };
+
+export const updateUser = async (req, res) => {
+  const { id: _id } = req.params;
+  const data = req.body;
+
+  try {
+    const isValidMongoId = mongoose.Types.ObjectId.isValid(_id);
+    const isExistingUser = await usersModel.findOne({ _id });
+    if (!isExistingUser || !isValidMongoId)
+      return res.status(404).json({ error: `User not found` });
+
+    const updatedUser = await usersModel.findOneAndUpdate(
+      { _id },
+      { ...data, password: data.password },
+      { new: true }
+    );
+
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error({ error: error.message || error });
+    res.status(500).json({ error: `User details update failed` });
+  }
+};
+
+export const deleteUser = deleteById(usersModel);
