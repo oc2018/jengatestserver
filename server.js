@@ -7,8 +7,10 @@ import userRoutes from "./routes/users.routes.js";
 import jengaRoutes from "./routes/jenga.routes.js";
 import propertyRoutes from "./routes/properties.routes.js";
 import tenantRoutes from "./routes/tenants.routes.js";
+import txnRoutes from "./routes/txn.routes.js";
 import auth from "./middleware/index.js";
 import { allowedOrigins } from "./utils/index.js";
+import { startCron } from "./utils/cron-rent.js";
 
 const app = express();
 env.config();
@@ -28,8 +30,9 @@ app.use(
 app.use(express.json());
 app.use("/api/jenga", auth, jengaRoutes);
 app.use("/api/users", userRoutes);
-app.use("/api/properties", propertyRoutes);
-app.use("/api/tenants", tenantRoutes);
+app.use("/api/properties", auth, propertyRoutes);
+app.use("/api/tenants", auth, tenantRoutes);
+app.use("/api/txns", auth, txnRoutes);
 
 app.get("/", (req, res) => {
   res.send("hello eric");
@@ -37,14 +40,15 @@ app.get("/", (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-const connectDB = () => {
+const connectDB = async () => {
   try {
-    mongoose.connect(process.env.DATABASE_URL);
+    await mongoose.connect(process.env.DATABASE_URL);
     app.listen(PORT, () =>
       console.log(`server running on: http://localhost:${PORT}`)
     );
+    startCron();
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
 };
 

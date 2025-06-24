@@ -25,12 +25,11 @@ GET http://localhost:4000/api/properties HTTP/1.1
 GET  http://localhost:4000/api/tenants/ HTTP/1.1
 
 ###
-PATCH  http://localhost:4000/api/properties/685847c5dd3ba0987a93c8ec HTTP/1.1
+PATCH  http://localhost:4000/api/tenants/685860fd29d6584fc2ecc4cf HTTP/1.1
 Content-Type: application/json
 
 {
-  "address": "T945/t004",
-  "rent": 2500
+  "property": "6859b10892ac139bade5ee18"
 }
 
 ###
@@ -49,7 +48,10 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:4000/api/properties/6859b17792ac139bade5ee1d HTTP/1.1
+DELETE http://localhost:4000/api/properties/6859b18092ac139bade5ee21 HTTP/1.1
 
 ###
-DELETE  http://localhost:4000/api/properties/685847c5dd3ba0987a93c8ec HTTP/1.1
+DELETE  http://localhost:4000/api/txns/685adabf74fbde745dc2d92f HTTP/1.1
+
+###
+GET http://localhost:4000/api/txns/ HTTP/1.1
