@@ -183,7 +183,7 @@ export const sendMoneyMobile = async (req, res) => {
       }
     );
 
-    res.status(200).json(result);
+    res.status(200).json(result.data);
   } catch (error) {
     console.log("Send money failed", error.response?.data || error);
     res.status(500).json({ error: `Send money failed` });

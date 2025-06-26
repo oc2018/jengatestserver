@@ -1,4 +1,5 @@
 import crypto from "crypto";
+
 const privateKey = Buffer.from(
   process.env.JENGA_PRIVATE_KEY_BASE64,
   "base64"

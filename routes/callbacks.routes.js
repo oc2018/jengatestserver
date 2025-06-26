@@ -1,10 +1,8 @@
 import express from "express";
+import { getCallback } from "../controllers/callback.controller.js";
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  console.log(res);
-  res.send(res);
-});
+router.get("/", getCallback);
 
 export default router;
