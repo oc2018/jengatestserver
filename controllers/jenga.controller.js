@@ -189,3 +189,100 @@ export const sendMoneyMobile = async (req, res) => {
     res.status(500).json({ error: `Send money failed` });
   }
 };
+
+export const queryStatus = async (req, res) => {
+  const { reference } = req.body;
+  const access_token = req.headers.authorization.split(" ")[1];
+  const url = `${process.env.JENGA_TRANSACTION_API_URL}/transactions/details/${reference}`;
+
+  try {
+    const signature = sign(reference);
+
+    const result = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+        signature,
+      },
+    });
+
+    console.log(result.data);
+
+    res.status(200).json(result.data);
+  } catch (error) {
+    console.log("Transaction status query failed", error);
+    res.status(500).json({ error: `Transaction status query failed` });
+  }
+};
+
+export const pesaLinkMobile = async (req, res) => {
+  const { source, destination, transfer } = req.body;
+
+  const access_token = req.headers.authorization.split(" ")[1];
+  const signature = sign(
+    transfer.amount +
+      transfer.currencyCode +
+      transfer.reference +
+      destination.name +
+      source.accountNumber
+  );
+
+  // console.log(access_token);
+
+  try {
+    const result = await axios.post(
+      `${process.env.JENGA_TRANSACTION_API_URL}/remittance/pesalinkMobile`,
+      { source, destination, transfer },
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+          signature: signature,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    res.status(200).json(result.data);
+  } catch (error) {
+    if (error.response?.data.code === 104201) {
+      return res.status(503).json({
+        error: "Transaction temporarily unavailable. please try again later",
+        reference: error.response.data.reference,
+      });
+    }
+    console.log("Pesalink to mobile failed", error.response.data || error);
+    res.status(500).json({ error: "Pesalink to mobile failed" });
+  }
+};
+
+export const pesaLinkToBank = async (req, res) => {
+  const { source, destination, transfer } = req.body;
+
+  const access_token = req.headers.authorization.split(" ")[1];
+
+  const signature = sign(
+    transfer.amount +
+      transfer.currencyCode +
+      transfer.reference +
+      destination.name +
+      source.accountNumber
+  );
+
+  try {
+    const result = await axios.post(
+      `${process.env.JENGA_TRANSACTION_API_URL}/remittance/pesalinkacc`,
+      { source, destination, transfer },
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+          signature: signature,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    res.status(200).json(result.data);
+  } catch (error) {
+    console.log("Pesalink to bank failed", error.response.data || error);
+    res.status(500).json({ error: `Pesalink to bank failed` });
+  }
+};
