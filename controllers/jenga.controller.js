@@ -205,7 +205,7 @@ export const queryStatus = async (req, res) => {
       },
     });
 
-    console.log(result.data);
+    // console.log(result.data);
 
     res.status(200).json(result.data);
   } catch (error) {

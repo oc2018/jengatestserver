@@ -10,8 +10,8 @@ const auth = async (req, res, next) => {
       req.headers["Authorization"].split(" ")[1];
 
     if (!token) return res.status(401).send(`You are not Authorized`);
-    let decodedToken = jwt.verify(token, secret);
-    console.log(decodedToken);
+    jwt.verify(token, secret);
+    // console.log(decodedToken);
 
     next();
   } catch (error) {
