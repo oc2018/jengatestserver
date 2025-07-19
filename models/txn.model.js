@@ -8,12 +8,12 @@ export const txnAccountType = Object.freeze({
   RENT_PAID: "rent_paid",
 });
 
-const counterSchema = new mongoose.Schema({
+export const counterSchema = new mongoose.Schema({
   _id: { type: String, required: true },
   seq: { type: Number, default: 0 },
 });
 
-const Counter = mongoose.model("Counter", counterSchema);
+export const Counter = mongoose.model("Counter", counterSchema);
 
 const txnSchema = new mongoose.Schema(
   {
@@ -39,6 +39,14 @@ const txnSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Property",
       required: true,
+    },
+    isDebit: {
+      type: Boolean,
+      required: true,
+    },
+    expenseId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Expense",
     },
   },
   {

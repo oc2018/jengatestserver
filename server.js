@@ -8,7 +8,9 @@ import jengaRoutes from "./routes/jenga.routes.js";
 import propertyRoutes from "./routes/properties.routes.js";
 import tenantRoutes from "./routes/tenants.routes.js";
 import txnRoutes from "./routes/txn.routes.js";
+import expensesRoutes from "./routes/expenses.routes.js";
 import jengaCallbackRoutes from "./routes/callbacks.routes.js";
+
 import auth from "./middleware/index.js";
 import { allowedOrigins } from "./utils/index.js";
 import { startCron } from "./utils/cron-rent.js";
@@ -34,10 +36,11 @@ app.use("/api/users", userRoutes);
 app.use("/api/properties", auth, propertyRoutes);
 app.use("/api/tenants", auth, tenantRoutes);
 app.use("/api/txns", auth, txnRoutes);
+app.use("/api/expenses", auth, expensesRoutes);
 app.use("/api/response", jengaCallbackRoutes);
 
 app.get("/", (req, res) => {
-  res.send("hello eric");
+  res.send("welcome, Emirl's server is up");
 });
 
 const PORT = process.env.PORT || 5000;
