@@ -36,7 +36,7 @@ export const getRefreshToken = async (req, res) => {
   const { refreshToken } = req.body;
   try {
     const response = await axios.post(
-      `${process.env.JENGA_API_AUTH_URL}/authenticate/merchant`,
+      `${process.env.JENGA_API_AUTH_URL}/refresh`,
       refreshToken,
       {
         headers: {
@@ -46,7 +46,6 @@ export const getRefreshToken = async (req, res) => {
       }
     );
 
-    console.log(response);
     res.status(200).json(response.data);
   } catch (error) {
     console.error("Token refresh failed", error.response?.data || error);
@@ -76,6 +75,8 @@ export const getAccountBalance = async (req, res) => {
   const access_token = req.headers["authorization"].split(" ")[1];
   validateAccount(countryCode, accountId, access_token);
 
+  if (!access_token) return res.status(403).json({ error: "Not authorized" });
+
   try {
     const signature = sign(countryCode + accountId);
 
@@ -102,6 +103,9 @@ export const getMiniStatement = async (req, res) => {
 
   try {
     const access_token = req.headers.authorization.split(" ")[1];
+
+    if (!access_token)
+      return res.status(403).json({ error: `Invalid or expired access token` });
 
     const signature = sign(countryCode + accountId);
     validateAccount(countryCode, accountId, access_token);
