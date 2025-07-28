@@ -34,7 +34,7 @@ export const getUsers = async (req, res) => {
 };
 
 export const createUser = async (req, res) => {
-  const { name, password, email, confirmPassword } = req.body;
+  const { name, password, email, confirmPassword, avatarUrl } = req.body;
 
   try {
     const isExistingUser = await usersModel.findOne({ email });
@@ -53,6 +53,7 @@ export const createUser = async (req, res) => {
       name,
       email,
       password: hashedPassword,
+      avatarUrl,
     });
 
     const token = jwt.sign(

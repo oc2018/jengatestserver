@@ -10,6 +10,7 @@ import tenantRoutes from "./routes/tenants.routes.js";
 import txnRoutes from "./routes/txn.routes.js";
 import expensesRoutes from "./routes/expenses.routes.js";
 import jengaCallbackRoutes from "./routes/callbacks.routes.js";
+import uploadRoutes from "./routes/uploads.routes.js";
 
 import auth from "./middleware/index.js";
 import { allowedOrigins } from "./utils/index.js";
@@ -33,6 +34,7 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/jenga", jengaRoutes);
+app.use("/api/uploads", uploadRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/properties", auth, propertyRoutes);
 app.use("/api/tenants", auth, tenantRoutes);

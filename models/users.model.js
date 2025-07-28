@@ -20,6 +20,9 @@ const UserSchema = new mongoose.Schema(
       lowecase: true,
       validate: [validator.isEmail, "Enter a valid email"],
     },
+    avatarUrl: {
+      type: String,
+    },
   },
   {
     timestamps: true,
