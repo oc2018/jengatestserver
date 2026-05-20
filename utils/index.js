@@ -1,9 +1,10 @@
 import crypto from "crypto";
 
-const privateKey = Buffer.from(
-  process.env.JENGA_PRIVATE_KEY_BASE64,
-  "base64"
-).toString("utf8");
+const privateKey = process.env.JENGA_PRIVATE_KEY_BASE64.replace(/\\n/g, "\n");
+// Buffer.from(
+//   process.env.JENGA_PRIVATE_KEY_BASE64,
+//   "base64",
+// ).toString("utf8");
 
 export const allowedOrigins = [
   "http://localhost:4000",
@@ -12,14 +13,20 @@ export const allowedOrigins = [
   "https://uat.finserve.africa",
 ];
 
+// console.log("Private Key:", privateKey);
 export const sign = (params) => {
-  const sign = crypto.createSign("RSA-SHA256");
+  // console.log(params);
+  try {
+    const signer = crypto.createSign("RSA-SHA256");
 
-  sign.update(params);
+    signer.update(String(params));
 
-  sign.end();
+    signer.end();
 
-  const signature = sign.sign(privateKey, "base64");
-
-  return signature;
+    const signature = signer.sign(privateKey, "base64");
+    // console.log("SIGNATURE:", signature);
+    return signature;
+  } catch (error) {
+    console.error(error);
+  }
 };

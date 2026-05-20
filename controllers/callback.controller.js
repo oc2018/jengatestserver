@@ -3,11 +3,9 @@ export const getCallback = (req, res) => {
   try {
     console.log("Jenga callback received", payload);
 
-    
-
     res.status(200).send("OK");
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).json({ error: "response error" });
   }
   console.log(response);

@@ -22,7 +22,7 @@ export const getJengaToken = async (req, res) => {
           "Content-Type": "application/json",
           "Api-Key": process.env.JENGA_API_KEY,
         },
-      }
+      },
     );
 
     res.status(200).json(response.data);
@@ -43,7 +43,7 @@ export const getRefreshToken = async (req, res) => {
           "Content-Type": "application/json",
           "Api-Key": process.env.JENGA_API_KEY,
         },
-      }
+      },
     );
 
     res.status(200).json(response.data);
@@ -56,29 +56,34 @@ export const getRefreshToken = async (req, res) => {
 export const validateAccount = async (countryCode, accountId, access_token) => {
   const signature = sign(countryCode + accountId);
 
-  const { data: inquiry } = await axios.get(
-    `${process.env.JENGA_ACCOUNT_API_URL}/accounts/balances/${countryCode}/${accountId}`,
-    {
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-        signature: signature,
+  try {
+    const { data: inquiry } = await axios.get(
+      `${process.env.JENGA_ACCOUNT_API_URL}/accounts/balances/${countryCode}/${accountId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+          signature: signature,
+        },
       },
-    }
-  );
+    );
 
-  return inquiry;
+    return inquiry;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const getAccountBalance = async (req, res) => {
   const { countryCode, accountId } = req.body;
 
-  const access_token = req.headers["authorization"].split(" ")[1];
-  validateAccount(countryCode, accountId, access_token);
-
-  if (!access_token) return res.status(403).json({ error: "Not authorized" });
-
   try {
+    const access_token = req.headers["authorization"].split(" ")[1];
+    validateAccount(countryCode, accountId, access_token);
+
+    if (!access_token) return res.status(403).json({ error: "Not authorized" });
+
     const signature = sign(countryCode + accountId);
+    // console.log("balance here");
 
     const result = await axios.get(
       `${process.env.JENGA_ACCOUNT_API_URL}/accounts/balances/${countryCode}/${accountId}`,
@@ -88,12 +93,12 @@ export const getAccountBalance = async (req, res) => {
           signature: signature,
           "Content-Type": "application/json",
         },
-      }
+      },
     );
 
     res.status(200).json(result.data);
   } catch (error) {
-    console.log("Balance request failed", error.response?.data || error);
+    // console.log("Balance request failed", error.response?.data || error);
     res.status(500).json({ error: "Balance request failed" });
   }
 };
@@ -118,7 +123,7 @@ export const getMiniStatement = async (req, res) => {
           signature: signature,
           "Content-Type": "application/json",
         },
-      }
+      },
     );
 
     res.status(200).json(result.data);
@@ -150,7 +155,7 @@ export const getFullStatement = async (req, res) => {
           Signature: signature,
           "Content-Type": "application/json",
         },
-      }
+      },
     );
 
     res.status(200).json(result.data);
@@ -172,7 +177,7 @@ export const sendMoneyMobile = async (req, res) => {
       transfer.amount +
         transfer.currencyCode +
         transfer.reference +
-        source.accountNumber
+        source.accountNumber,
     );
 
     const result = await axios.post(
@@ -184,7 +189,7 @@ export const sendMoneyMobile = async (req, res) => {
           signature: signature,
           "Content-Type": "application/json",
         },
-      }
+      },
     );
 
     res.status(200).json(result.data);
@@ -227,7 +232,7 @@ export const pesaLinkMobile = async (req, res) => {
       transfer.currencyCode +
       transfer.reference +
       destination.name +
-      source.accountNumber
+      source.accountNumber,
   );
 
   // console.log(access_token);
@@ -242,7 +247,7 @@ export const pesaLinkMobile = async (req, res) => {
           signature: signature,
           "Content-Type": "application/json",
         },
-      }
+      },
     );
 
     res.status(200).json(result.data);
@@ -268,7 +273,7 @@ export const pesaLinkToBank = async (req, res) => {
       transfer.currencyCode +
       transfer.reference +
       destination.name +
-      source.accountNumber
+      source.accountNumber,
   );
 
   try {
@@ -281,7 +286,7 @@ export const pesaLinkToBank = async (req, res) => {
           signature: signature,
           "Content-Type": "application/json",
         },
-      }
+      },
     );
 
     res.status(200).json(result.data);
